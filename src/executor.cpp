@@ -132,16 +132,14 @@ string Executor::processarLinha(string linha) {
 		}
 
 		else if (nomeComando == "create-channel") {
-			string nome, tipo;
-			buf >> nome;
-			buf >> tipo;
+			string nome;
+			buf >> nome;			
 			return sistema->create_channel(id, nome);
 		}
 
 		else if (nomeComando == "enter-channel") {
-			string nome, tipo;
-			buf >> nome;
-			buf >> tipo;
+			string nome;
+			buf >> nome;			
 			return sistema->enter_channel(id, nome);
 		}
 
