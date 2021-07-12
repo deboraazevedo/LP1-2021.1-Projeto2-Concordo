@@ -8,11 +8,13 @@ Existe um executor que faz a interpretação dos comandos e executa o método co
 
 Com makefiles:
 ```console
+mkdir build
 make
 ```
 
 Com cmake:
 ```console
+mkdir build
 cd build
 cmake ..
 cmake --build .
