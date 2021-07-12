@@ -58,15 +58,15 @@ string Sistema::list_channels(int id) {
   return "list_channels NÃO IMPLEMENTADO";
 }
 
-string Sistema::create_channel(int id, const string nome, const string tipo) {
+string Sistema::create_channel(int id, const string nome) {
   return "create_channel NÃO IMPLEMENTADO";
 }
 
-string Sistema::enter_channel(int id, const string nome, const string tipo) {
+string Sistema::enter_channel(int id, const string nome) {
   return "enter_channel NÃO IMPLEMENTADO";
 }
 
-string Sistema::leave_channel(int id) {
+string Sistema::leave_channel(int id, const std::string nome) {
   return "leave_channel NÃO IMPLEMENTADO";
 }
 

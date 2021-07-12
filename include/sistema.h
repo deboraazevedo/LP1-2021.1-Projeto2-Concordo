@@ -4,23 +4,18 @@
 #include <string>
 #include <iostream>
 #include <map>
-#include <tuple>
 
 #include "usuario.h"
 #include "servidor.h"
 #include "canaltexto.h"
-#include "canalvoz.h"
 
 
 // Sistema deve concentrar todas as operações do Concordo
 class Sistema {
   private:
-		std::vector<Servidor> servidores;
-		std::vector<Usuario> usuarios;
-		std::map< int, std::tuple<Servidor*, CanalTexto*, CanalVoz*> > usuariosLogados;
-//    int usuarioLogadoId; // se 0: não logado, caso contrário guarda o id do usuário logado
-//    std::string nomeServidorConectado;
-//    std::string nomeCanalConectado;
+		std::vector<Servidor> servidores; //<! um vetor com todos os servidores
+		std::vector<Usuario> usuarios; //<! um vetor com todos os usuários cadastrados
+		std::map< int, std::pair<Servidor*, CanalTexto*> > usuariosLogados; //<! um vetor contendo os usuários que logaram no sistema
 		
 
   public:
@@ -142,10 +137,9 @@ class Sistema {
 				de acordo com o comando create-channel. Retorna uma mensa
 				@param id um id válido de algum usuário cadastrado e logado no sistema. 
 				@param o nome do novo canal, de acordo com o comando create-channel
-				@param tipo uma string representando o tipo do canal de acordo com o comando create-channel
 				@return "Canal <nome> criado!" ou uma mensagem de erro em caso de falha.
 		*/
-		std::string create_channel(int id, const std::string nome, const std::string tipo);
+		std::string create_channel(int id, const std::string nome);
 		
 		/*! Faz com que o usuário com id dado entre em um canal específico(com seu nome e tipo) ao entrar
 				em um canal o sistema deve atualizar a tabela Sistema::usuariosLogados com a informação de
@@ -153,11 +147,10 @@ class Sistema {
 				erro em caso de falha.
 				@param id um id válido de algum usuário cadastrado e logado no sistema.
 				@param o nome do canal que deseja entrar,
-				@param o tipo do canal em que se deseja entrar,
 				@return "Usuário <email.do.usuario> entrou no canal <nome>" ou uma mensagem de
 								erro em caso de falha.
 		*/
-		std::string enter_channel(int id, const std::string nome, const std::string tipo);
+		std::string enter_channel(int id, const std::string nome);
 
 		/*! Faz com que o usuário com id dado saia do canal com nome fornecido. Ao sair de um canal, se
 				este for o canal que está sendo visualizado pelo usuário, este método deve atualizar o 

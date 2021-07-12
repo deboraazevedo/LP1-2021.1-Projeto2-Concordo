@@ -72,9 +72,6 @@ string Executor::processarLinha(string linha) {
     return sistema->login(email, senha);
   }
 
-	else if (nomeComando == "list-servers") {
-		return sistema->list_servers();
-	}
 
 	int id;
 	if(buf >> id){
@@ -103,6 +100,10 @@ string Executor::processarLinha(string linha) {
 			return sistema->set_server_invite_code(id, nome, codigo);
 		}
 
+		else if (nomeComando == "list-servers") {
+			return sistema->list_servers(id);
+		}
+
 		else if (nomeComando == "remove-server") {
 			string nome;
 			buf >> nome;
@@ -117,7 +118,9 @@ string Executor::processarLinha(string linha) {
 		}
 
 		else if (nomeComando == "leave-server") {
-			return sistema->leave_server(id);
+			string nome;
+			buf >> nome;
+			return sistema->leave_server(id, nome);
 		}
 
 		else if (nomeComando == "list-participants") {
@@ -132,18 +135,20 @@ string Executor::processarLinha(string linha) {
 			string nome, tipo;
 			buf >> nome;
 			buf >> tipo;
-			return sistema->create_channel(id, nome, tipo);
+			return sistema->create_channel(id, nome);
 		}
 
 		else if (nomeComando == "enter-channel") {
 			string nome, tipo;
 			buf >> nome;
 			buf >> tipo;
-			return sistema->enter_channel(id, nome, tipo);
+			return sistema->enter_channel(id, nome);
 		}
 
 		else if (nomeComando == "leave-channel") {
-			return sistema->leave_channel(id);
+			string nome;
+      buf >> nome;
+			return sistema->leave_channel(id, nome);
 		}
 
 		else if (nomeComando == "send-message") {
