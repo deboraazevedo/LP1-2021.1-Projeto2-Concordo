@@ -66,7 +66,7 @@ string Sistema::enter_channel(int id, const string nome) {
   return "enter_channel NÃO IMPLEMENTADO";
 }
 
-string Sistema::leave_channel(int id, const std::string nome) {
+string Sistema::leave_channel(int id) {
   return "leave_channel NÃO IMPLEMENTADO";
 }
 

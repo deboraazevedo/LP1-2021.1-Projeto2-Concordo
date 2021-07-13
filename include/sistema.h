@@ -152,17 +152,16 @@ class Sistema {
 		*/
 		std::string enter_channel(int id, const std::string nome);
 
-		/*! Faz com que o usuário com id dado saia do canal com nome fornecido. Ao sair de um canal, se
-				este for o canal que está sendo visualizado pelo usuário, este método deve atualizar o 
-				attributo Sistema::usuariosLogados de forma que o usuário não esteja mais vizualizando
-				o canal do qual saiu. A função deve retornar mensagem de sucesso ou de erro em caso de falha
+		/*! Faz com que o usuário com id dado saia do canal que está visualizando atualmente. 
+				Ao sair de um canal o sistema deve atualizar o attributo Sistema::usuariosLogados de 
+				forma que o usuário não esteja mais vizualizando qualquer canal. A função deve retornar 
+				mensagem de sucesso ou de erro em caso de falha
 				@param id um id válido de algum usuário cadastrado e logado no sistema.
-				@param nome o nome do canal desejado. Veja que o canal precisa pertencer ao servidor que o
 							 que o usuário está visualizando, de acordo com o atributo Sistema::usuariosLogados.
 				@return "Usuário <email.do.usuario> saiu no canal <nome>" ou uma mensagem de erro em caso de
 								falha.
 		*/
-		std::string leave_channel(int id, const std::string nome);
+		std::string leave_channel(int id);
 		
 		/*! Envia uma mensagem no canal em que o usuáiro com id passado está visualizando.
 				@param id um id válido de algum usuário cadastrado e logado no sistema.

@@ -146,9 +146,7 @@ string Executor::processarLinha(string linha) {
 		}
 
 		else if (nomeComando == "leave-channel") {
-			string nome;
-      buf >> nome;
-			return sistema->leave_channel(id, nome);
+			return sistema->leave_channel(id);
 		}
 
 		else if (nomeComando == "send-message") {
