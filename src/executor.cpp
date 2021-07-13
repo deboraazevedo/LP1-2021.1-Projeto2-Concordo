@@ -8,7 +8,7 @@
 using namespace std;
 
 // Função de apoio que recebe um istringstream e
-// ler todo texto restante até o fim da linha
+// le todo texto restante até o fim da linha
 string restoDe(istringstream &ss) {
   string resto;
   getline(ss, resto, '\0'); // ler o resto da linha
@@ -25,7 +25,7 @@ Executor::Executor(Sistema &sistema) {
   this->sistema = &sistema;
 }
 
-// Inicia o processamento dos comentos.
+// Inicia o processamento dos comentarios.
 // Esse método recebe por exemplo o "cin" e o "cout" no main
 // Dessa forma ele faz o necessário para ler 1 comando por linha e
 // o processar corretamente, colocando no stream de saída o resultado de cada um.
