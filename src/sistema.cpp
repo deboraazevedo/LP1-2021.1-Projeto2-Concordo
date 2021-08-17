@@ -2,19 +2,50 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 
+static int novoUsuarioId = 1;
 /* COMANDOS */
 string Sistema::quit() {
   return "Saindo...";
 }
 
 string Sistema::create_user (const string email, const string senha, const string nome) {
+  auto it = usuarios.begin();
+  while (it < usuarios.end()){
+    if (it->email == email){
+      return "Usuário já existe";
+    }
+    it++;
+  }
+  Usuario novoUsuario;
+  novoUsuario.id = novoUsuarioId;
+  novoUsuario.nome = nome;
+  novoUsuario.email = email;
+  novoUsuario.senha = senha;
+
+  usuarios.push_back(novoUsuario);
+  novoUsuarioId += 1;
+  cout << "Usuário ID " << novoUsuarioId << endl;
+  return "Usuário criado";
   return "create_user NÃO IMPLEMENTADO";
 }
 
 string Sistema::login(const string email, const string senha) {
+  vector<Usuario>::iterator it;
+  
+  for (it = usuarios.begin(); it < usuarios.end(); it++){
+    if (it->email == email && it->senha == senha){
+      pair<string, string> servidor_canal("", "");
+
+      usuariosLogados.insert(pair<int, pair<string, string>>(it->id, servidor_canal));
+      return "Usuário logado com sucesso.";
+    }
+
+  }
+  return "Email ou senha inválidos";
   return "login NÃO IMPLEMENTADO";
 }
 
