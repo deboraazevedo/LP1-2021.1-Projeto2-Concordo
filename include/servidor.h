@@ -5,6 +5,7 @@
 #include <vector>
 
 class Servidor{
+	public:
 	int usuarioDonoId;
 	string nome;
 	string descricao;

@@ -2,10 +2,18 @@
 #define CANALTEXTO_H
 #include <vector>
 #include <string>
-#include "mensagem.h"
 
+using namespace std;
+
+class Mensagem{
+	public:
+    string dataHora;
+    int enviadaPor;
+    string conteudo;
+};
 
 class CanalTexto{
+	public:
 	string nome;
 	vector<Mensagem> mensagens;
 
