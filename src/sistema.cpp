@@ -178,22 +178,32 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
           return "Servidor requer codigo de convite valido";
         }
         if (itera->codigoConvite != "" && itera->codigoConvite == codigo){
-          itera->participantesIDs.push_back(id);
+          auto encontrado = std::find(itera->participantesIDs.begin(), itera->participantesIDs.end(), id);
+          if(encontrado == itera->participantesIDs.end()){
+            itera->participantesIDs.push_back(id);
+            it->second.first = nome;
+            return "Usuario entrou com sucesso no servidor " +nome+ " e foi adicionado em usuariosLogados";
+          }
+          else
+            return "Usuario já entrou no servidor.";
+          
         // salvar a informação que o usuário logado está visualizando 
         // o servidor escolhido na tabela usuariosLogados.
-          it->second.first = nome;
-          return "Usuario entrou com sucesso no servidor " +nome+ " e foi adicionado em usuariosLogados";
+          
 
         }
-        itera->participantesIDs.push_back(id);
-        it->second.first = nome;
-        return "Usuario entrou com sucesso no servidor " +nome+ " e foi adicionado em usuariosLogados";
+       auto encontrado = std::find(itera->participantesIDs.begin(), itera->participantesIDs.end(), id);
+          if(encontrado == itera->participantesIDs.end()){
+            itera->participantesIDs.push_back(id);
+            it->second.first = nome;
+            return "Usuario entrou com sucesso no servidor " +nome+ " e foi adicionado em usuariosLogados";
       }
 
     }
     return "Servidor " +nome+ " não existe.";
   }
   return "Usuário não está logado";
+}
 }
 
 string Sistema::leave_server(int id, const string nome) {
