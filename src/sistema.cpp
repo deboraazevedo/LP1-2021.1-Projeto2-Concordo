@@ -29,7 +29,7 @@ string Sistema::create_user (const string email, const string senha, const strin
 
   usuarios.push_back(novoUsuario);
   cout << "Usuário ID " << novoUsuarioId <<  " criado" << endl;
-  list_users();
+  // list_users();
   novoUsuarioId += 1;
   return "Usuário criado";
   return "create_user NÃO IMPLEMENTADO";
@@ -42,13 +42,13 @@ string Sistema::login(const string email, const string senha) {
     if (it->email == email && it->senha == senha){
       pair<string, string> servidor_canal("", "");
 
-      usuariosLogados.insert(pair<int, pair<string, string>>(it->id, servidor_canal));
+      // usuariosLogados.insert(pair<int, pair<string, string>>(it->id, servidor_canal));
+      usuariosLogados[it->id] = servidor_canal;
       return "Usuário logado com sucesso.";
     }
 
   }
   return "Email ou senha inválidos";
-  return "login NÃO IMPLEMENTADO";
 }
 
 string Sistema::disconnect(int id) {
@@ -169,15 +169,80 @@ string Sistema::remove_server(int id, const string nome) {
 }
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
-  return "enter_server NÃO IMPLEMENTADO";
+  std::map< int, std::pair<std::string, std::string> >::iterator it;
+  it = usuariosLogados.find(id);
+  if (it != usuariosLogados.end()){
+    for (auto itera = servidores.begin(); itera != servidores.end(); itera++){
+      if (itera->nome == nome){
+        if (itera->codigoConvite != "" && itera->codigoConvite != codigo){
+          return "Servidor requer codigo de convite valido";
+        }
+        if (itera->codigoConvite != "" && itera->codigoConvite == codigo){
+          itera->participantesIDs.push_back(id);
+        // salvar a informação que o usuário logado está visualizando 
+        // o servidor escolhido na tabela usuariosLogados.
+          it->second.first = nome;
+          return "Usuario entrou com sucesso no servidor " +nome+ " e foi adicionado em usuariosLogados";
+
+        }
+        itera->participantesIDs.push_back(id);
+        it->second.first = nome;
+        return "Usuario entrou com sucesso no servidor " +nome+ " e foi adicionado em usuariosLogados";
+      }
+
+    }
+    return "Servidor " +nome+ " não existe.";
+  }
+  return "Usuário não está logado";
 }
 
 string Sistema::leave_server(int id, const string nome) {
-  return "leave_server NÃO IMPLEMENTADO";
+  std::vector<Servidor>::iterator itServidor;
+  string nome_servidor = nome;
+  for (itServidor = servidores.begin(); itServidor != servidores.end(); itServidor++){
+    if (itServidor->nome == nome_servidor){
+      for (auto itParticipante = itServidor->participantesIDs.begin(); 
+      itParticipante != itServidor->participantesIDs.end(); itParticipante++){
+        if(*itParticipante == id){
+          itServidor->participantesIDs.erase(itParticipante);
+          return "Saindo do servidor " +nome_servidor+ " .";
+        }
+      }
+    }
+    
+  }
+  return "Você não está em nenhum servidor";
 }
 
 string Sistema::list_participants(int id) {
-  return "list_participants NÃO IMPLEMENTADO";
+  stringstream listaUsuarios;
+  std::map< int, std::pair<std::string, std::string> >::iterator it;
+  it = usuariosLogados.find(id);
+  if (it == usuariosLogados.end()){
+    return "Usuário não está logado";
+  }
+  string nome_servidor = it->second.first;
+  std::vector<Servidor>::iterator itServidor;
+  for (itServidor = servidores.begin(); itServidor != servidores.end(); itServidor++){
+    if (itServidor->nome == nome_servidor){
+      for (auto itParticipante = itServidor->participantesIDs.begin(); 
+      itParticipante != itServidor->participantesIDs.end(); itParticipante++){
+        int idParticipante = *itParticipante;
+        for (auto itUsuario = usuarios.begin(); itUsuario != usuarios.end(); itUsuario++){
+          if (itUsuario->id == idParticipante){
+            listaUsuarios << itUsuario->nome << endl; 
+          }
+        }
+
+      }
+      
+    }
+
+  }
+
+    //usuario do id esta em um servidor
+    //buscar servidor por nome
+  return listaUsuarios.str();
 }
 
 string Sistema::list_channels(int id) {
