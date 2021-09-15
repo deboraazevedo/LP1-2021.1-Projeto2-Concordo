@@ -256,11 +256,62 @@ string Sistema::list_participants(int id) {
 }
 
 string Sistema::list_channels(int id) {
-  return "list_channels NÃO IMPLEMENTADO";
+  std::map< int, std::pair<std::string, std::string> >::iterator it;
+  stringstream listaCanais;
+  it = usuariosLogados.find(id);
+  if (it == usuariosLogados.end()){
+    return "Usuário não está logado";
+  }
+  string servidor_visualizado = it->second.first;
+  if (servidor_visualizado == ""){
+    return "Você não tem canais para listar.";
+  }
+  for (auto itera = servidores.begin(); itera != servidores.end(); itera++){
+    if (itera->nome == servidor_visualizado){
+      //for (auto itera_canal = itera->canaisTexto.begin(); itera_canal != itera->canaisTexto.end(); itera_canal++){
+        //listaCanais << itera_canal->nome << endl;       
+      //
+      for (auto &canal : itera->canaisTexto){
+        listaCanais << canal.nome << endl;
+      }
+    }
+  }
+ 
+  return listaCanais.str();
 }
 
+
+
 string Sistema::create_channel(int id, const string nome) {
-  return "create_channel NÃO IMPLEMENTADO";
+  std::map< int, std::pair<std::string, std::string> >::iterator it;
+  it = usuariosLogados.find(id);
+  CanalTexto novoCanal;
+  std::vector<Servidor>::iterator itera; 
+  if (it != usuariosLogados.end()){
+    string servidor_visualizado = it->second.first;
+    if (servidor_visualizado == ""){
+      return "Usuário não está em nenhum servidor.";
+    }
+
+    for (itera = servidores.begin(); itera != servidores.end(); itera++){
+      if (itera->nome == servidor_visualizado){
+        for (auto itera_canal = itera->canaisTexto.begin(); itera_canal != itera->canaisTexto.end(); itera_canal++){
+          if (itera_canal->nome == nome){
+            return "Canal de texto " +nome+ " já existe";
+          }
+          
+        }
+        novoCanal.nome = nome;
+        std::vector<CanalTexto> nome_canal = novoServidor.canaisTexto;
+        itera->canaisTexto.push_back(novoCanal);
+        return "Canal de texto " +nome+ " criado";
+
+      }
+    }
+    return "Servidor não existe.";    
+  }
+  return "Usuario não logado";
+
 }
 
 string Sistema::enter_channel(int id, const string nome) {
